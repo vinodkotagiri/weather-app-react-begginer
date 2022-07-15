@@ -8,42 +8,45 @@ import {
     UilSun,
     UilSunset
 } from '@iconscout/react-unicons'
-const TemperatureAndDetails = () => {
+import { formatToLocalTime, iconUrlFromCode } from '../services/WeatherServices'
+const TemperatureAndDetails = ({ weather: {
+    details, icon, temp, temp_min, temp_max, sunrise, sunset, speed, humidity, feels_like, timezone
+} }) => {
     return (
         <div>
-            <div className="flex items-center justify-center py-6 text-xl text-cyan-300">
-                <p>Clear and Whatever</p>
+            <div className="flex items-center justify-center py-2 text-xl text-cyan-300">
+                <p>{details}</p>
             </div>
-            <div className="flex flex-row items-center justify-between py-3 text-white">
-                <img src="" alt="..." className="w-20" />
-                <p className="text-5xl">34<sup>o</sup></p>
-                <div className="flex flex-col space-y-2">
+            <div className="flex flex-row items-center justify-between py-1 text-white">
+                <img src={iconUrlFromCode(icon)} alt="..." className="w-20 " />
+                <p className="text-5xl">{temp.toFixed()}<sup>o</sup></p>
+                <div className="flex flex-col space-y-1">
                     <div className="flex flex-light items-center justify-center">
-                        <UilTemperature size={18} className="mr-1" />Real feel: <sapn className="font-medium ml-1">32<sup>o</sup></sapn>
+                        <UilTemperature size={18} className="mr-1" />Real feel: <span className="font-medium ml-1">{feels_like.toFixed()}<sup>o</sup></span>
                     </div>
                     <div className="flex flex-light items-center justify-center">
-                        <UilTear size={18} className="mr-1" />Humidity: <sapn className="font-medium ml-1">65%</sapn>
+                        <UilTear size={18} className="mr-1" />Humidity: <span className="font-medium ml-1">{humidity}%</span>
                     </div>
                     <div className="flex flex-light items-center justify-center">
-                        <UilWind size={18} className="mr-1" />Wind: <sapn className="font-medium ml-1">11 km/h</sapn>
+                        <UilWind size={18} className="mr-1" />Wind: <span className="font-medium ml-1">{speed.toFixed()} km/h</span>
                     </div>
                 </div>
             </div>
-            <div className="flex flex-row space-x-2 text-white text-sm py-3 justify-center">
+            <div className="flex flex-row space-x-2 text-white text-sm py-1 justify-center">
                 <UilSun />
-                <p className="font-light">Rise :<span className="font-medium ml-1">06:45 AM</span></p>
+                <p className="font-light">Rise :<span className="font-medium ml-1">{formatToLocalTime(sunrise, timezone, 'hh:mm a')}</span></p>
                 <p className="font-light">|</p>
 
                 <UilSunset />
-                <p className="font-light">Set :<span className="font-medium ml-1">07:45 AM</span></p>
+                <p className="font-light">Set :<span className="font-medium ml-1">{formatToLocalTime(sunset, timezone, 'hh:mm a')}</span></p>
                 <p className="font-light">|</p>
 
                 <UilArrowUp />
-                <p className="font-light">High :<span className="font-medium ml-1">32<sup>o</sup></span></p>
+                <p className="font-light">High :<span className="font-medium ml-1">{temp_max.toFixed()}<sup>o</sup></span></p>
                 <p className="font-light">|</p>
 
                 <UilArrowDown />
-                <p className="font-light">Low :<span className="font-medium ml-1">41<sup>o</sup></span></p>
+                <p className="font-light">Low :<span className="font-medium ml-1">{temp_min.toFixed()}<sup>o</sup></span></p>
 
             </div>
         </div>
